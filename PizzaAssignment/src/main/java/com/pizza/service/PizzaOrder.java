@@ -46,16 +46,19 @@ public class PizzaOrder {
   		}
   		
   		//Adding data to PizzaType class
-  		PizzaTypes pizzatype = new PizzaTypes("Cheese and corn", "Regular",150, Type.VEG, 15);
+  		PizzaTypes pizzatype1 = new PizzaTypes("Cheese and corn", "Regular",150, Type.VEG, 15);
+		PizzaTypes pizzatype2 = new PizzaTypes("Deluxe Veggie", "Medium",170, Type.VEG, 20);
   		//Adding data to pizza class
   		
   		
-  		Pizza pizza1 = new Pizza(pizzatype,nameExtraToppings,Crust.FRESH_PAN_PIZZA, true,listofsides);
+  		Pizza pizza1 = new Pizza(pizzatype1,nameExtraToppings,Crust.FRESH_PAN_PIZZA, true,listofsides);
+  		Pizza pizza2 = new Pizza(pizzatype2,nameExtraToppings,Crust.FRESH_PAN_PIZZA, true,listofsides);
   		
   		
   		//Adding Pizza to PizzaList
   		ArrayList<Pizza> pizzaList = new ArrayList<Pizza>();{
   		pizzaList.add(pizza1);
+  		pizzaList.add(pizza2);
   		}
   		
   		Order orders = new Order( pizzaList, listofsides,true, "pqr");
@@ -114,7 +117,14 @@ public class PizzaOrder {
 		ExtraCheeseMap.put("ExtraCheese", 55);
 	}
 	
-	
+	static Map<String,Integer>  PizzaCount= new HashMap<>();{
+		PizzaCount.put("Deluxe Veggie+Regular" , 15);
+		PizzaCount.put("Deluxe Veggie+Medium" , 20);
+		PizzaCount.put("Cheese and corn+Regular" , 15);
+		PizzaCount.put("Nonveg_Supreme+Regular" , 15);
+		PizzaCount.put("Nonveg_Supreme+Medium" , 7);
+		
+	}
 	
 	
 public Order getOrder(){
@@ -135,16 +145,19 @@ public Order getOrder(){
 		
 		
 		//Adding data to PizzaType class
-		PizzaTypes pizzatype = new PizzaTypes("Cheese and corn", "Regular",150, Type.VEG, 15);
+		PizzaTypes pizzatype1 = new PizzaTypes("Cheese and corn", "Regular",150, Type.VEG, 15);
+		PizzaTypes pizzatype2 = new PizzaTypes("Deluxe Veggie", "Medium",170, Type.VEG, 20);
 		//Adding data to pizza class
 		
 		
-		Pizza pizza1 = new Pizza(pizzatype,nameExtraToppings,Crust.FRESH_PAN_PIZZA, true,listofsides);
+		Pizza pizza1 = new Pizza(pizzatype1,nameExtraToppings,Crust.FRESH_PAN_PIZZA, true,listofsides);
+		Pizza pizza2 = new Pizza(pizzatype2,nameExtraToppings,Crust.FRESH_PAN_PIZZA, true,listofsides);
 		
 		
 		//Adding Pizza to PizzaList
 		ArrayList<Pizza> pizzaList = new ArrayList<Pizza>();
 		pizzaList.add(pizza1);
+		pizzaList.add(pizza2);
 	
 		
 	//	System.out.print("pizzaList is" +pizzaList);
@@ -163,16 +176,20 @@ public Order getOrder(){
 		
 	    int cost = 0;
 	    
-	   
-	    Order oredr101 = Order101.get(OrderId);
-		ArrayList<Pizza> pizzaList = oredr101.getPizzas();
 	    
+	   // Order order = new Order( pizzaList, listofsides,true, "pqr");  
+	    
+	   //Fetching Order by orderId from HashMap
+	    Order order101 = Order101.get(OrderId);
+		ArrayList<Pizza> pizzaList = order101.getPizzas();
+	    
+		
+		
 		
 		
 		for(Pizza pizza: pizzaList){
 			String pizzaName = pizza.getPizzatypes().getName()+ "+" +pizza.getPizzatypes().getSize() ;
-			ArrayList<String> ToppingNames = pizza.getExtraToppings();
-			
+			ArrayList<String> ToppingNames = pizza.getExtraToppings();		
 			
 			int pizzaCount =pizza.getPizzatypes().getCount();
 			ArrayList<String> Sides = pizza.getSides();
@@ -196,20 +213,15 @@ public Order getOrder(){
 			
 			
 			
-			for(int i=0; i<ToppingNames.size(); i++){
-				
-		
-				
-				cost += vegToppingMap.get(ToppingNames.get(i));
-				System.out.println(" cost)" + cost);
-			
+			for(int i=0; i<ToppingNames.size(); i++){		
+				cost += vegToppingMap.get(ToppingNames.get(i));		
 			}
 			
 			}else{
 				
 				cost +=  NonvegPizzaTypeMap.get(pizzaName);
 				if(ToppingNames.size() > 1 ){
-					System.out.println("abc");
+					
 					return 0;
 				}else{
 				for(int i=0; i<ToppingNames.size(); i++){
@@ -223,40 +235,42 @@ public Order getOrder(){
 			{
 				cost += sidesMap.get(Sides.get(i));
 			}
-			
-			
-				
-		System.out.println("Your order cost is : " +cost +" Click confirm to place your order");
 		 
 		
-			
-		if(order.isConfirmOrder()){
-			System.out.println("Your order has been confirmed and total amount of your order is : " +cost +" , Proceed for payment");
-			
-			int PizzaCountVendor = Vendor.PizzaCount.get(pizzaName);
-			PizzaCountVendor =	PizzaCountVendor-1;
-			System.out.println(" PizzaCountVendor" + PizzaCountVendor);
-			
-			
-			int PizzaCount = pizza.getPizzatypes().getCount();
-			PizzaCount = pizzaCount - 1;
-			System.out.println(" PizzaCount" + PizzaCount);
-			
-		}
+			//After Clicking Confirm by client, inventory will be changed and count will be decreased.
+		
 		}
 		
+		return cost;	
+		
+	}
+		public int cofirm(String OrderId ){
+			
+		int PizzaCountVendor = 0;
+			
+		Order order = new Order( pizzaList, listofsides,true, "pqr");
+	    if(order.isConfirmOrder()){
+			 Order order101 = Order101.get(OrderId);
+		ArrayList<Pizza> pizzaList = order101.getPizzas();
+		
+		for(Pizza pizza: pizzaList){
+		String pizzaName = pizza.getPizzatypes().getName()+ "+" +pizza.getPizzatypes().getSize() ;
+		
+		//Fetching pizza count by pizza name from Hashmap
+		 PizzaCountVendor = PizzaCount.get(pizzaName);
+		
+		//Decreasing count of pizza in inventory after placing order
+		PizzaCountVendor =	PizzaCountVendor-1;
 		
 		
-		
-		
-		return cost;
-		
-		
+		//int PizzaCount = pizza.getPizzatypes().getCount();
+		//PizzaCount = PizzaCount - 1;
+		//System.out.println(" PizzaCount" + PizzaCount);
 		
 		
 		
 	}
-		
-	
-
+	}
+	return PizzaCountVendor;
+	}
 }
