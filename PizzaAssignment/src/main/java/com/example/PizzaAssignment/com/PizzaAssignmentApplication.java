@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 import com.pizza.controller.PizzaController;
 import com.pizza.model.Order;
-import com.pizza.service.PizzaOrder;
+import com.pizza.service.CalculateCostService;
 
 @SpringBootApplication(scanBasePackages={
 "com.example.PizzaAssignment.com", "com.pizza"})

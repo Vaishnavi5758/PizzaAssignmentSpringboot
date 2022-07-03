@@ -15,7 +15,7 @@ public class Pizza {
 private PizzaTypes pizzatypes;
 private ArrayList<String> extraToppings;
 private Crust crust;
-private boolean cheese;
+private int cheeseCount;
 private ArrayList<String> Sides;
 
 
@@ -24,50 +24,105 @@ private ArrayList<String> Sides;
 public Pizza() {
 	super();
 }
-public Pizza(PizzaTypes pizzatypes, ArrayList<String> extraToppings, Crust crust, boolean cheese,
+
+
+
+
+public Pizza(PizzaTypes pizzatypes, ArrayList<String> extraToppings, Crust crust, int cheeseCount,
 		ArrayList<String> sides) {
 	super();
 	this.pizzatypes = pizzatypes;
 	this.extraToppings = extraToppings;
 	this.crust = crust;
-	this.cheese = cheese;
+	this.cheeseCount = cheeseCount;
 	Sides = sides;
 }
+
+
+
+
 public PizzaTypes getPizzatypes() {
 	return pizzatypes;
 }
+
+
+
+
 public void setPizzatypes(PizzaTypes pizzatypes) {
 	this.pizzatypes = pizzatypes;
 }
+
+
+
+
 public ArrayList<String> getExtraToppings() {
 	return extraToppings;
 }
+
+
+
+
 public void setExtraToppings(ArrayList<String> extraToppings) {
 	this.extraToppings = extraToppings;
 }
+
+
+
+
 public Crust getCrust() {
 	return crust;
 }
+
+
+
+
 public void setCrust(Crust crust) {
 	this.crust = crust;
 }
-public boolean isCheese() {
-	return cheese;
+
+
+
+
+public int getCheeseCount() {
+	return cheeseCount;
 }
-public void setCheese(boolean cheese) {
-	this.cheese = cheese;
+
+
+
+
+public void setCheeseCount(int cheeseCount) {
+	this.cheeseCount = cheeseCount;
 }
+
+
+
+
 public ArrayList<String> getSides() {
 	return Sides;
 }
+
+
+
+
 public void setSides(ArrayList<String> sides) {
 	Sides = sides;
 }
+
+
+
+
 @Override
 public String toString() {
-	return "Pizza [pizzatypes=" + pizzatypes + ", extraToppings=" + extraToppings + ", crust=" + crust + ", cheese="
-			+ cheese + ", Sides=" + Sides + "]";
+	return "Pizza [pizzatypes=" + pizzatypes + ", extraToppings=" + extraToppings + ", crust=" + crust
+			+ ", cheeseCount=" + cheeseCount + ", Sides=" + Sides + "]";
 }
+
+
+
+
+
+
+
 
 
 
